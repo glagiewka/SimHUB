@@ -2,11 +2,13 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "main": "src/electron/main.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev:next": "next dev",
+    "build:next": "next build",
+    "lint:next": "next lint",
+    "start:next": "next start",
+    "start:electron": "electron ."
   },
   "dependencies": {
     "@types/node": "20.4.1",
@@ -20,6 +22,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "electron": "^25.2.0",
     "eventemitter3": "^5.0.1",
     "ts-node": "^10.9.1"
   }
