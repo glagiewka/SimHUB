@@ -3,6 +3,9 @@
 import {useEffect, useState} from "react";
 import {GameConnectedEventArgs, GameDisconnectedEventArgs, Event} from "@common/event";
 
+import Tile from "../tile";
+import styles from "./styles.module.css";
+
 type Props = {
     name: string
 }
@@ -25,10 +28,14 @@ const GameIndicator = ({name}: Props) => {
     }
 
     return (
-        <div>
-            {gameConnectedInfo.name}
-            {gameConnectedInfo.version}
-        </div>
+        <Tile>
+            <div className={styles.gameTitle}>
+                {gameConnectedInfo.name}
+            </div>
+            <div className={styles.gameVersion}>
+                {gameConnectedInfo.version}
+            </div>
+        </Tile>
     )
 }
 

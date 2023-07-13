@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import GameIndicator from "./common/game-indicator/game-indicator";
+import GameIndicator from "./common/game-indicator";
 
 const inter = Inter({ subsets: ['latin'] })
 

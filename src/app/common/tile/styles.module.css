@@ -1,0 +1,6 @@
+.tile {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 20px;
+    flex: 0 1 50%;
+}
