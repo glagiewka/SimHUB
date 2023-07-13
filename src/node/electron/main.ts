@@ -1,7 +1,7 @@
 import {ACAdapter} from "../telemetry-adapters/ac/ACAdapter";
 import {Event, EventName, GameConnectedEventArgs} from "@common/event";
 
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
 const createWindow = () => {
@@ -23,15 +23,19 @@ app.whenReady().then(() => {
     const win = createWindow()
 
     try {
-        new ACAdapter('./dist/bin/SharedMemoryReader/SharedMemoryReader.exe')
+        const adapter = new ACAdapter('./dist/bin/SharedMemoryReader/SharedMemoryReader.exe')
             .subscribe(EventName.GameConnected, (e) => {
                 // TODO wait for page to show or reply the event
+                console.log(e)
                 setTimeout(() => {
                  win.webContents.send(EventName.GameConnected, e)
                 }, 5000)
             })
             .subscribe(EventName.GameDisconnected, (e) => win.webContents.send(EventName.GameDisconnected, e))
             .start()
+
+        ipcMain.handle('game:getConnectedGames', () => adapter.getConnectedGame())
+
     } catch (e) {
         console.log(e)
     }

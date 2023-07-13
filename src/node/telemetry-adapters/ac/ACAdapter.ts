@@ -1,11 +1,11 @@
 import {spawn} from 'node:child_process';
-import {EventName} from "@common/event";
+import {EventName, GameConnectedEventArgs} from "@common/event";
 import {Adapter} from "../common/Adapter";
 import {Physics, Static} from "../common/Types";
 
 export class ACAdapter extends Adapter {
 
-    private isGameConnected: boolean = false;
+    private connectedGames: GameConnectedEventArgs | null = null
 
     constructor(private readonly binaryFile: string) {
         super()
@@ -16,19 +16,18 @@ export class ACAdapter extends Adapter {
             try {
                 const staticInfo = await this.readFile<Static>('static')
 
-                if (!this.isGameConnected) {
-                    this.emit(EventName.GameConnected, {
+                if (!this.connectedGames) {
+                    this.connectedGames = {
                         name: 'Assetto Corsa',
                         version: staticInfo.ACVersion
-                    })
-                    this.isGameConnected = true;
+                    }
+
+                    this.emit(EventName.GameConnected, this.connectedGames)
                 }
             } catch (e) {
-                if (this.isGameConnected) {
-                    this.emit(EventName.GameDisconnected, {
-                        name: 'Assetto Corsa',
-                    })
-                    this.isGameConnected = false;
+                if (this.connectedGames) {
+                    this.emit(EventName.GameDisconnected, this.connectedGames)
+                    this.connectedGames = null;
                 }
                 console.error(e)
             }
@@ -41,11 +40,18 @@ export class ACAdapter extends Adapter {
                 console.error(e)
             }
         }, 500)
+
+        return this;
     }
 
     public dispose() {
         super.dispose();
     }
+
+    public getConnectedGame(): GameConnectedEventArgs | null {
+        return this.connectedGames;
+    }
+
 
     /**
      * Spawns a shared memory process and reads data for the given type

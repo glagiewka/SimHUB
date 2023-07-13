@@ -8,8 +8,6 @@ export abstract class Adapter implements IDisposable {
 
     private eventEmitter = new EventEmitter();
 
-    public abstract start(): void;
-
     public subscribe<T extends keyof TypeMap>(type: T, clb: (e: Event<TypeMap[T]>) => void) {
         this.eventEmitter.on(type, clb)
         return this;
@@ -26,6 +24,8 @@ export abstract class Adapter implements IDisposable {
         return this;
     }
 
+    public abstract getConnectedGame(): GameConnectedEventArgs | null;
+    public abstract start(): this;
     dispose(): void {}
 }
 

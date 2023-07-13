@@ -1,27 +1,12 @@
 "use client"
 
-import {useEffect, useState} from "react";
-import {GameConnectedEventArgs, GameDisconnectedEventArgs, Event} from "@common/event";
+import {useConnectedGame} from "@data/hooks/game";
 
 import Tile from "../tile";
 import styles from "./styles.module.css";
 
-type Props = {
-    name: string
-}
-
-const GameIndicator = ({name}: Props) => {
-    const [gameConnectedInfo, setGameConnectedInfo] = useState<GameConnectedEventArgs | null>(null)
-    
-    useEffect(() => {
-        global.window.electronAPI.onGameConnected((e: Event<GameConnectedEventArgs>) => {
-            setGameConnectedInfo(e.value)
-        })
-
-        global.window.electronAPI.onGameDisconnected((e: Event<GameDisconnectedEventArgs>) => {
-            setGameConnectedInfo(null)
-        })
-    }, [])
+const GameIndicator = () => {
+    const gameConnectedInfo = useConnectedGame()
 
     if (!gameConnectedInfo) {
         return null;

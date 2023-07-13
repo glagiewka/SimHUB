@@ -5,6 +5,7 @@ export type GameConnectedEventArgs = {
 
 export type GameDisconnectedEventArgs = {
     name: string,
+    version: string
 }
 
 export enum EventName {
