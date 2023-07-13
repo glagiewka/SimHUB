@@ -7,7 +7,11 @@
     "build:next": "next build",
     "lint:next": "next lint",
     "start:next": "next start",
-    "start:electron": "electron .",
+    "node:build:clean": "rimraf ./dist",
+    "node:build:copy:binaries": "shx mkdir -p ./dist/bin && shx cp -r ./src/node/telemetry-adapters/ac/binaries/* ./dist/bin",
+    "node:build:typescript": "tsc -p ./tsconfig.node.json && tsc-alias -p ./tsconfig.node.json",
+    "node:build": "npm run node:build:clean && npm run node:build:typescript && npm run node:build:copy:binaries",
+    "start:electron": "npm run node:build && electron ./dist/node/electron/main.js",
     "dev": "concurrently --kill-others \"npm run start:electron\" \"npm run dev:next\""
   },
   "dependencies": {
@@ -25,6 +29,9 @@
     "concurrently": "^8.2.0",
     "electron": "^25.2.0",
     "eventemitter3": "^5.0.1",
-    "ts-node": "^10.9.1"
+    "rimraf": "^5.0.1",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.7"
   }
 }

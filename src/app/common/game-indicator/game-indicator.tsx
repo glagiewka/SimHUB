@@ -1,25 +1,33 @@
 "use client"
 
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {GameConnectedEventArgs, GameDisconnectedEventArgs, Event} from "@common/event";
 
 type Props = {
     name: string
 }
 
 const GameIndicator = ({name}: Props) => {
+    const [gameConnectedInfo, setGameConnectedInfo] = useState<GameConnectedEventArgs | null>(null)
+    
     useEffect(() => {
-        global.window.electronAPI.onGameConnected(() => {
-            console.log('onGameConnected')
+        global.window.electronAPI.onGameConnected((e: Event<GameConnectedEventArgs>) => {
+            setGameConnectedInfo(e.value)
         })
 
-        global.window.electronAPI.onGameDisconnected(() => {
-            console.log('onGameDisconnected')
+        global.window.electronAPI.onGameDisconnected((e: Event<GameDisconnectedEventArgs>) => {
+            setGameConnectedInfo(null)
         })
     }, [])
 
+    if (!gameConnectedInfo) {
+        return null;
+    }
+
     return (
         <div>
-            {name}
+            {gameConnectedInfo.name}
+            {gameConnectedInfo.version}
         </div>
     )
 }

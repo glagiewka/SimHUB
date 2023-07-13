@@ -1,6 +1,8 @@
+import {GameConnectedEventArgs, GameDisconnectedEventArgs, Event} from "@common/event";
+
 export interface IElectronAPI {
-    onGameConnected: (clb: () => void) => void,
-    onGameDisconnected: (clb: () => void) => void,
+    onGameConnected: (clb: (e: Event<GameConnectedEventArgs>) => void) => void,
+    onGameDisconnected: (clb: (e: Event<GameDisconnectedEventArgs>) => void) => void,
 }
 
 declare global {

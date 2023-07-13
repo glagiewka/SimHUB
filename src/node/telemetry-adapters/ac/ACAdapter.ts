@@ -1,14 +1,11 @@
 import {spawn} from 'node:child_process';
+import {EventName} from "@common/event";
 import {Adapter} from "../common/Adapter";
 import {Physics, Static} from "../common/Types";
 
-const fileMap = {
-    [Adapter.Type.Static]: 'static',
-    [Adapter.Type.Graphics]: 'graphics',
-    [Adapter.Type.Physics]: 'physics',
-}
-
 export class ACAdapter extends Adapter {
+
+    private isGameConnected: boolean = false;
 
     constructor(private readonly binaryFile: string) {
         super()
@@ -17,19 +14,37 @@ export class ACAdapter extends Adapter {
     public start() {
         setInterval(async () => {
             try {
-                this.emit(Adapter.Type.Static, await this.readFile<Static>(Adapter.Type.Static))
+                const staticInfo = await this.readFile<Static>('static')
+
+                if (!this.isGameConnected) {
+                    this.emit(EventName.GameConnected, {
+                        name: 'Assetto Corsa',
+                        version: staticInfo.ACVersion
+                    })
+                    this.isGameConnected = true;
+                }
             } catch (e) {
+                if (this.isGameConnected) {
+                    this.emit(EventName.GameDisconnected, {
+                        name: 'Assetto Corsa',
+                    })
+                    this.isGameConnected = false;
+                }
                 console.error(e)
             }
         }, 1000)
 
         setInterval(async () => {
             try {
-                this.emit(Adapter.Type.Physics, await this.readFile<Physics>(Adapter.Type.Physics))
+                this.emit(EventName.Physics, await this.readFile<Physics>('physics'))
             } catch (e) {
                 console.error(e)
             }
         }, 500)
+    }
+
+    public dispose() {
+        super.dispose();
     }
 
     /**
@@ -37,10 +52,10 @@ export class ACAdapter extends Adapter {
      *
      * @throws Error - when spawning a process fails
      */
-    private readFile<T>(type: Adapter.Type) {
+    private readFile<T>(type: string) {
         return new Promise<T>((resolve, reject) => {
             try {
-                const bat = spawn(this.binaryFile, [fileMap[type]]);
+                const bat = spawn(this.binaryFile, [type]);
 
                 bat.stdout.on('data', (data) => {
                     resolve(JSON.parse(data.toString()))

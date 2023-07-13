@@ -22,7 +22,7 @@
     "paths": {
       "@telemetry-adapters/*": ["./src/telemetry-adapters/*"],
       "@data/*": ["./src/data/*"],
-      "@modules/*": ["./src/modules/*"]
+      "@common/*": ["./src/common/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
