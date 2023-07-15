@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Event, GameConnectedEventArgs, GameDisconnectedEventArgs} from "@common/event";
+import {Event, GameConnectedEventArgs, GameDisconnectedEventArgs, PhysicsChangeEventArgs} from "@common/event";
 
 export const useConnectedGame = () => {
     const [gameConnectedInfo, setGameConnectedInfo] = useState<GameConnectedEventArgs | null>(null)
@@ -19,4 +19,16 @@ export const useConnectedGame = () => {
     }, [])
 
     return gameConnectedInfo;
+}
+
+export const useGameProperties = () => {
+    const [physics, setPhysics] = useState<PhysicsChangeEventArgs>({ currentRpm: 0})
+
+    useEffect(() => {
+        global.window.electronAPI.onPhysicsChange((e: Event<PhysicsChangeEventArgs>) => {
+            setPhysics(e.value)
+        })
+    }, [])
+
+    return physics
 }

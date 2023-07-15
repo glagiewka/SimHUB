@@ -1,5 +1,11 @@
 import EventEmitter from "eventemitter3";
-import {Event, EventName, GameConnectedEventArgs, GameDisconnectedEventArgs} from "@common/event";
+import {
+    Event,
+    EventName,
+    GameConnectedEventArgs,
+    GameDisconnectedEventArgs,
+    PhysicsChangeEventArgs
+} from "@common/event";
 import {IDisposable} from "@common/general";
 
 export abstract class Adapter implements IDisposable {
@@ -29,6 +35,7 @@ export abstract class Adapter implements IDisposable {
 
 type TypeMap = {
     [EventName.Error]: Error;
+    [EventName.PhysicsChange]: PhysicsChangeEventArgs;
     [EventName.GameConnected]: GameConnectedEventArgs;
     [EventName.GameDisconnected]: GameDisconnectedEventArgs;
 

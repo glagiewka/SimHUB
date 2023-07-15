@@ -7,6 +7,7 @@
 
   --foreground-primary: #ffffff;
   --foreground-secondary: #adadad;
+  --accent-primary: #52dad7;
   --background-start-rgb: #141e30;
   --background-end-rgb: #243b55;
 }
@@ -29,10 +30,8 @@
 html,
 body {
   max-width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
-}
-
-body {
   color: var(--foreground-primary);
   background: #141e30;
   background: linear-gradient(to left, var(--background-start-rgb), var(--background-end-rgb));

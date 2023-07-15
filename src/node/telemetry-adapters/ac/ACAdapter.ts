@@ -1,19 +1,22 @@
 import {spawn} from 'node:child_process';
 import {EventName, GameConnectedEventArgs} from "@common/event";
 import {Adapter} from "../common/Adapter";
-import {Static} from "./types";
+import {Physics, Static} from "./types";
 import {wrapError} from "@common/error";
+import {clearInterval} from "timers";
 
 export class ACAdapter extends Adapter {
 
     private connectedGames: GameConnectedEventArgs | null = null
+    private staticInterval: NodeJS.Timer | null = null;
+    private physicsInterval: NodeJS.Timer | null = null;
 
     constructor(private readonly binaryFile: string) {
         super()
     }
 
     public start() {
-        setInterval(async () => {
+        this.staticInterval = setInterval(async () => {
             try {
                 const staticInfo = await this.readFile<Static>('static')
                 console.log(staticInfo)
@@ -25,19 +28,15 @@ export class ACAdapter extends Adapter {
             }
         }, 1000)
 
-        setInterval(async () => {
-            try {
-                // this.emit(EventName.Physics, await this.readFile<Physics>('physics'))
-            } catch (e) {
-                this.emit(EventName.Error, wrapError(e))
-            }
-        }, 500)
-
         return this;
     }
 
     public dispose() {
         super.dispose();
+
+        if (this.staticInterval) {
+            clearInterval(this.staticInterval);
+        }
     }
 
     public getConnectedGame(): GameConnectedEventArgs | null {
@@ -89,6 +88,7 @@ export class ACAdapter extends Adapter {
         }
 
         this.emit(EventName.GameConnected, this.connectedGames)
+        this.startListeningToPhysics()
     }
 
     private disconnect() {
@@ -98,5 +98,27 @@ export class ACAdapter extends Adapter {
 
         this.emit(EventName.GameDisconnected, this.connectedGames)
         this.connectedGames = null;
+        this.stopListeningToPhysics()
+    }
+
+    private startListeningToPhysics() {
+        this.physicsInterval = setInterval(async () => {
+            try {
+                const physics = await this.readFile<Physics>('physics')
+                console.log(physics)
+
+                this.emit(EventName.PhysicsChange, {
+                    currentRpm: physics.rpm
+                })
+            } catch (e) {
+                this.emit(EventName.Error, wrapError(e))
+            }
+        }, 100)
+    }
+
+    private stopListeningToPhysics() {
+        if (this.physicsInterval) {
+            clearInterval(this.physicsInterval)
+        }
     }
 }

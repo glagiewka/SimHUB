@@ -1,0 +1,21 @@
+.dialog {
+    align-self: center;
+    border-radius: 4px;
+    border: none;
+    margin: auto;
+    overflow: hidden;
+    pointer-events: all;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    color: var(--foreground-primary);
+}
+
+.dialogContainer {
+    display: flex;
+    height: 100vh;
+    place-content: center;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}

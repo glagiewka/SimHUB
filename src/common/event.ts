@@ -8,10 +8,12 @@ export type GameDisconnectedEventArgs = {
     version: string
 }
 
+export type PhysicsChangeEventArgs = {
+   currentRpm: number
+}
+
 export enum EventName {
-    Physics = 'Physics',
-    Graphics = 'Graphics',
-    Rpm = 'Rpm',
+    PhysicsChange = 'PhysicsChange',
     Error = 'Error',
     GameConnected = 'GameConnected',
     GameDisconnected = 'GameDisconnected',

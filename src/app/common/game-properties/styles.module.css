@@ -1,0 +1,43 @@
+.dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 600px;
+    max-width: 80vw;
+    font-size: 14px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.list {
+    list-style: none;
+}
+
+.item {
+    display: flex;
+    gap: 10px;
+}
+
+.itemTitle {
+    color: var(--foreground-primary);
+}
+
+.itemValue {
+    color: var(--foreground-secondary);
+}
+
+.button {
+    appearance: none;
+    background: none;
+    border: none;
+    color: var(--foreground-secondary);
+    font-size: 12px;
+}
+
+.button:hover {
+    cursor: pointer;
+    color: var(--accent-primary);
+}

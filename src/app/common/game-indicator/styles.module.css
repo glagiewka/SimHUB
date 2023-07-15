@@ -13,3 +13,16 @@
     color: var(--foreground-secondary);
     font-size: 12px;
 }
+
+.button {
+    appearance: none;
+    background: none;
+    border: none;
+    color: var(--foreground-secondary);
+    font-size: 12px;
+}
+
+.button:hover {
+    cursor: pointer;
+    color: var(--accent-primary);
+}

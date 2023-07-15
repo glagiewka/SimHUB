@@ -1,5 +1,6 @@
 import {ACAdapter} from "../telemetry-adapters/ac/ACAdapter";
 import {EventName} from "@common/event";
+import {subscribe} from "diagnostics_channel";
 
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
@@ -32,7 +33,8 @@ app.whenReady().then(() => {
                  win.webContents.send(EventName.GameConnected, e)
                 }, 5000)
             })
-            .subscribe(EventName.GameDisconnected, (e) => win.webContents.send(EventName.GameDisconnected, e))
+            .subscribe(EventName.PhysicsChange, e => win.webContents.send(EventName.PhysicsChange, e))
+            .subscribe(EventName.GameDisconnected, e => win.webContents.send(EventName.GameDisconnected, e))
             .subscribe(EventName.Error, (e) => {
                 // todo add global file logging
                 console.log('ACAdapter')

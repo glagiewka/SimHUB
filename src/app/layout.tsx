@@ -1,7 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+
 import GameIndicator from "./common/game-indicator";
+import DialogContainer from "./common/dialog/dialog-container";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +21,11 @@ export default function RootLayout({
   return (
       <html lang="en">
         <body className={inter.className}>
-            <GameIndicator name="Assetto Corsa" />
-            {children}
+            <main>
+                <GameIndicator />
+                {children}
+            </main>
+            <DialogContainer />
         </body>
       </html>
   )
