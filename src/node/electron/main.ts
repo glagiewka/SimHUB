@@ -14,6 +14,7 @@ const createWindow = () => {
     })
 
     win.loadURL('http://localhost:3000')
+    // TODO only in dev env
     win.webContents.openDevTools();
 
     return win;
@@ -23,6 +24,7 @@ app.whenReady().then(() => {
     const win = createWindow()
 
     try {
+        // TODO file location
         const adapter = new ACAdapter('./dist/bin/SharedMemoryReader/SharedMemoryReader.exe')
             .subscribe(EventName.GameConnected, (e) => {
                 // TODO wait for page to show or reply the event

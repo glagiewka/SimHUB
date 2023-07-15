@@ -76,9 +76,16 @@ export class ACAdapter extends Adapter {
             return;
         }
 
+        const { acVersion, smVersion } = staticInfo
+
+        if (!acVersion || !smVersion) {
+            return;
+        }
+
+        const acc = smVersion !== '1.7'
         this.connectedGames = {
-            name: 'Assetto Corsa',
-            version: staticInfo.acVersion
+            name: acc ? 'Assetto Corsa Competizione' : 'Assetto Corsa',
+            version: acVersion
         }
 
         this.emit(EventName.GameConnected, this.connectedGames)

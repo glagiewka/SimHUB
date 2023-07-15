@@ -5,6 +5,7 @@ export type Physics = {
 export type Static = {
     maxRpm: number
     acVersion: string
+    smVersion: string
 }
 
 export type Graphics = {
