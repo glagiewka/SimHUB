@@ -107,6 +107,11 @@ export class ACAdapter extends Adapter {
                 const physics = await this.readFile<Physics>('physics')
                 console.log(physics)
 
+                if (!physics)
+                {
+                    return
+                }
+
                 this.emit(EventName.PhysicsChange, {
                     currentRpm: physics.rpm
                 })
