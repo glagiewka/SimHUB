@@ -24,27 +24,20 @@ class Reader
 
     private T ReadFile<T>(string fileName) where T : struct
     {
-        try
-        {
-            var file = MemoryMappedFile.OpenExisting(fileName);
+        var file = MemoryMappedFile.OpenExisting(fileName);
 
-            using (var stream = file.CreateViewStream())
+        using (var stream = file.CreateViewStream())
+        {
+            using (var reader = new BinaryReader(stream))
             {
-                using (var reader = new BinaryReader(stream))
-                {
-                    var size = Marshal.SizeOf(typeof(T));
-                    var bytes = reader.ReadBytes(size);
-                    var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-                    var data = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
-                    handle.Free();
+                var size = Marshal.SizeOf(typeof(T));
+                var bytes = reader.ReadBytes(size);
+                var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+                var data = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                handle.Free();
 
-                    return data;
-                }
+                return data;
             }
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Unable to read file: {fileName}", ex);
         }
     }
 }

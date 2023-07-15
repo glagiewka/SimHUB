@@ -11,6 +11,8 @@ export type GameDisconnectedEventArgs = {
 export enum EventName {
     Physics = 'Physics',
     Graphics = 'Graphics',
+    Rpm = 'Rpm',
+    Error = 'Error',
     GameConnected = 'GameConnected',
     GameDisconnected = 'GameDisconnected',
 }
