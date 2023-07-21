@@ -1,7 +1,7 @@
 "use client"
 
 import {useCallback, useState} from "react";
-import {useConnectedGame} from "@data/hooks/game";
+import {useConnectedGame} from "@common/data/game";
 
 import Tile from "../tile";
 import GameProperties from "../game-properties";

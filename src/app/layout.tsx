@@ -2,8 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import GameIndicator from "./common/game-indicator";
-import DialogContainer from "./common/dialog/dialog-container";
+import GameIndicator from "@common/components/game-indicator";
+import DialogContainer from "@common/components/dialog/dialog-container";
 
 const inter = Inter({ subsets: ['latin'] })
 

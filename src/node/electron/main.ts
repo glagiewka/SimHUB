@@ -1,6 +1,5 @@
 import {ACAdapter} from "../telemetry-adapters/ac/ACAdapter";
-import {EventName} from "@common/event";
-import {subscribe} from "diagnostics_channel";
+import {EventName} from "@common/types/event";
 
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')

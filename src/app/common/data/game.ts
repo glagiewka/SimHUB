@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Event, GameConnectedEventArgs, GameDisconnectedEventArgs, PhysicsChangeEventArgs} from "@common/event";
+import {Event, GameConnectedEventArgs, GameDisconnectedEventArgs, PhysicsChangeEventArgs} from "@common/types/event";
 
 export const useConnectedGame = () => {
     const [gameConnectedInfo, setGameConnectedInfo] = useState<GameConnectedEventArgs | null>(null)

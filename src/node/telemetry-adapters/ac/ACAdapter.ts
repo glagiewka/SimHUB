@@ -1,9 +1,10 @@
 import {spawn} from 'node:child_process';
-import {EventName, GameConnectedEventArgs} from "@common/event";
+import {clearInterval} from "timers";
+import {EventName, GameConnectedEventArgs} from "@common/types/event";
+import {wrapError} from "@common/types/error";
+
 import {Adapter} from "../common/Adapter";
 import {Physics, Static} from "./types";
-import {wrapError} from "@common/error";
-import {clearInterval} from "timers";
 
 export class ACAdapter extends Adapter {
 

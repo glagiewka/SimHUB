@@ -1,6 +1,6 @@
 "use client"
 
-import {useGameProperties} from "@data/hooks/game";
+import {useGameProperties} from "@common/data/game";
 import Dialog from "../dialog";
 import styles from "./styles.module.css";
 

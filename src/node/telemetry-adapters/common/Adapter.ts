@@ -5,8 +5,8 @@ import {
     GameConnectedEventArgs,
     GameDisconnectedEventArgs,
     PhysicsChangeEventArgs
-} from "@common/event";
-import {IDisposable} from "@common/general";
+} from "@common/types/event";
+import {IDisposable} from "@common/types/general";
 
 export abstract class Adapter implements IDisposable {
 

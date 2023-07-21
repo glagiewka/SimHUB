@@ -1,4 +1,4 @@
-import { useProductList } from '@data/hooks/product'
+import { useProductList } from '@common/data/product'
 import styles from "./styles.module.css";
 import ProductTile from "./product-tile";
 

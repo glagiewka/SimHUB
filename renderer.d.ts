@@ -1,4 +1,4 @@
-import {GameConnectedEventArgs, GameDisconnectedEventArgs, Event, PhysicsChangeEventArgs} from "@common/event";
+import {GameConnectedEventArgs, GameDisconnectedEventArgs, Event, PhysicsChangeEventArgs} from "@common/types/event";
 
 export interface IElectronAPI {
     getConnectedGames(): Promise<GameConnectedEventArgs | null>,

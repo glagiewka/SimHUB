@@ -3,7 +3,7 @@ import {
     GameConnectedEventArgs,
     GameDisconnectedEventArgs,
     PhysicsChangeEventArgs
-} from "@common/event";
+} from "@common/types/event";
 
 const { contextBridge, ipcRenderer } = require('electron')
 

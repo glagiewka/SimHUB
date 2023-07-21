@@ -21,8 +21,7 @@
     ],
     "paths": {
       "@telemetry-adapters/*": ["./src/telemetry-adapters/*"],
-      "@data/*": ["./src/data/*"],
-      "@common/*": ["./src/common/*"]
+      "@common/*": ["./src/app/common/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
