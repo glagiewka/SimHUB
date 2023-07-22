@@ -1,5 +1,6 @@
 import EventEmitter from "eventemitter3";
 import {
+    CarChangeEventArgs,
     Event,
     EventName,
     GameConnectedEventArgs,
@@ -28,13 +29,15 @@ export abstract class Adapter implements IDisposable {
         return this;
     }
 
-    public abstract getConnectedGame(): GameConnectedEventArgs | null;
+    public abstract getCurrentGame(): GameConnectedEventArgs | null;
+    public abstract getCurrentCar(): CarChangeEventArgs | null;
     public abstract start(): this;
     dispose(): void {}
 }
 
 type TypeMap = {
     [EventName.Error]: Error;
+    [EventName.CarChange]: CarChangeEventArgs;
     [EventName.PhysicsChange]: PhysicsChangeEventArgs;
     [EventName.GameConnected]: GameConnectedEventArgs;
     [EventName.GameDisconnected]: GameDisconnectedEventArgs;

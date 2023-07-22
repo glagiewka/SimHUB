@@ -1,11 +1,17 @@
 import {useEffect, useState} from "react";
-import {Event, GameConnectedEventArgs, GameDisconnectedEventArgs, PhysicsChangeEventArgs} from "@common/types/event";
+import {
+    CarChangeEventArgs,
+    Event,
+    GameConnectedEventArgs,
+    GameDisconnectedEventArgs,
+    PhysicsChangeEventArgs
+} from "@common/types/event";
 
 export const useConnectedGame = () => {
     const [gameConnectedInfo, setGameConnectedInfo] = useState<GameConnectedEventArgs | null>(null)
 
     useEffect(() => {
-        global.window.electronAPI.getConnectedGames().then((gameInfo) => {
+        global.window.electronAPI.getCurrentGame().then((gameInfo) => {
             setGameConnectedInfo(gameInfo)
         })
 
@@ -22,13 +28,29 @@ export const useConnectedGame = () => {
 }
 
 export const useGameProperties = () => {
-    const [physics, setPhysics] = useState<PhysicsChangeEventArgs>({ currentRpm: 0})
+    const [gameProperties, setGameProperties] = useState<PhysicsChangeEventArgs>({ currentRpm: 0})
 
     useEffect(() => {
         global.window.electronAPI.onPhysicsChange((e: Event<PhysicsChangeEventArgs>) => {
-            setPhysics(e.value)
+            setGameProperties(e.value)
         })
     }, [])
 
-    return physics
+    return gameProperties
+}
+
+export const useCarProperties = () => {
+    const [carProperties, setCarProperties] = useState<CarChangeEventArgs | null>({ maxRpm: 0})
+
+    useEffect(() => {
+        global.window.electronAPI.getCurrentCar().then((gameInfo) => {
+            setCarProperties(gameInfo)
+        })
+
+        global.window.electronAPI.onCarChange((e: Event<CarChangeEventArgs>) => {
+            setCarProperties(e.value)
+        })
+    }, [])
+
+    return carProperties
 }

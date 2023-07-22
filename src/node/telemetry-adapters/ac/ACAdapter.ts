@@ -1,6 +1,6 @@
 import {spawn} from 'node:child_process';
 import {clearInterval} from "timers";
-import {EventName, GameConnectedEventArgs} from "@common/types/event";
+import {CarChangeEventArgs, EventName, GameConnectedEventArgs} from "@common/types/event";
 import {wrapError} from "@common/types/error";
 
 import {Adapter} from "../common/Adapter";
@@ -8,7 +8,8 @@ import {Physics, Static} from "./types";
 
 export class ACAdapter extends Adapter {
 
-    private connectedGames: GameConnectedEventArgs | null = null
+    private currentGame: GameConnectedEventArgs | null = null
+    private currentCar: CarChangeEventArgs | null = null;
     private staticInterval: NodeJS.Timer | null = null;
     private physicsInterval: NodeJS.Timer | null = null;
 
@@ -20,8 +21,6 @@ export class ACAdapter extends Adapter {
         this.staticInterval = setInterval(async () => {
             try {
                 const staticInfo = await this.readFile<Static>('static')
-                console.log(staticInfo)
-
                 staticInfo ? this.connect(staticInfo) : this.disconnect()
             } catch (e) {
                 this.disconnect()
@@ -40,8 +39,12 @@ export class ACAdapter extends Adapter {
         }
     }
 
-    public getConnectedGame(): GameConnectedEventArgs | null {
-        return this.connectedGames;
+    public getCurrentGame(): GameConnectedEventArgs | null {
+        return this.currentGame;
+    }
+
+    public getCurrentCar(): CarChangeEventArgs | null {
+        return this.currentCar;
     }
 
     /**
@@ -72,33 +75,39 @@ export class ACAdapter extends Adapter {
     }
 
     private connect(staticInfo: Static) {
-        if (this.connectedGames) {
+        if (this.currentGame) {
             return;
         }
 
-        const { acVersion, smVersion } = staticInfo
+        const { acVersion, smVersion, maxRpm } = staticInfo
 
         if (!acVersion || !smVersion) {
             return;
         }
 
         const acc = smVersion !== '1.7'
-        this.connectedGames = {
+        this.currentGame = {
             name: acc ? 'Assetto Corsa Competizione' : 'Assetto Corsa',
             version: acVersion
         }
 
-        this.emit(EventName.GameConnected, this.connectedGames)
+        this.currentCar = {
+            maxRpm
+        }
+
+        this.emit(EventName.GameConnected, this.currentGame)
+        this.emit(EventName.CarChange, this.currentCar)
         this.startListeningToPhysics()
     }
 
     private disconnect() {
-        if (!this.connectedGames) {
+        if (!this.currentGame) {
             return;
         }
 
-        this.emit(EventName.GameDisconnected, this.connectedGames)
-        this.connectedGames = null;
+        this.emit(EventName.GameDisconnected, this.currentGame)
+        this.currentGame = null;
+        this.currentCar = null
         this.stopListeningToPhysics()
     }
 
@@ -106,7 +115,6 @@ export class ACAdapter extends Adapter {
         this.physicsInterval = setInterval(async () => {
             try {
                 const physics = await this.readFile<Physics>('physics')
-                console.log(physics)
 
                 if (!physics)
                 {

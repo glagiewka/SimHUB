@@ -1,4 +1,4 @@
-export const useInfo = (): ProductInfo => {
+export const useProductProperties = (): ProductInfo => {
     return {
         name: "Rev_",
         configuration: {

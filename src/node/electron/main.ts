@@ -33,6 +33,7 @@ app.whenReady().then(() => {
                 }, 5000)
             })
             .subscribe(EventName.PhysicsChange, e => win.webContents.send(EventName.PhysicsChange, e))
+            .subscribe(EventName.CarChange, e => win.webContents.send(EventName.CarChange, e))
             .subscribe(EventName.GameDisconnected, e => win.webContents.send(EventName.GameDisconnected, e))
             .subscribe(EventName.Error, (e) => {
                 // todo add global file logging
@@ -41,7 +42,8 @@ app.whenReady().then(() => {
             })
             .start()
 
-        ipcMain.handle('game:getConnectedGames', () => adapter.getConnectedGame())
+        ipcMain.handle('game:getCurrentGame', () => adapter.getCurrentGame())
+        ipcMain.handle('game:getCurrentCar', () => adapter.getCurrentCar())
 
     } catch (e) {
         console.log(e)
