@@ -1,0 +1,10 @@
+.body {
+    display: flex;
+    gap: 10px;
+}
+
+.led {
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+}
