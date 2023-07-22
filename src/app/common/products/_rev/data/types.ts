@@ -16,20 +16,18 @@ export type LEDs<T> = {
     led14: T
 }
 
-type A = keyof LEDs<any>;
-
-type Configuration = {
+export type Configuration = {
     rpmPattern: LEDs<number> & { flash: number },
     rpmColors: LEDs<string>,
     pitLimiterColors: LEDs<string>
 }
 
 type Configurations = {
-    default: Configuration,
     [index: string]: Partial<Configuration>
 }
 
-type ProductInfo = {
+export type ProductInfo = {
     name: string,
-    configuration: Configurations
+    currentConfiguration: string
+    configuration: Configuration
 }

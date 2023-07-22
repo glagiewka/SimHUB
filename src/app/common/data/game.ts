@@ -39,12 +39,17 @@ export const useGameProperties = () => {
     return gameProperties
 }
 
+const DEFAULT_CAR_PROPERTIES: CarChangeEventArgs = {
+    maxRpm: 0
+}
+
+
 export const useCarProperties = () => {
-    const [carProperties, setCarProperties] = useState<CarChangeEventArgs | null>({ maxRpm: 0})
+    const [carProperties, setCarProperties] = useState<CarChangeEventArgs>(DEFAULT_CAR_PROPERTIES)
 
     useEffect(() => {
         global.window.electronAPI.getCurrentCar().then((gameInfo) => {
-            setCarProperties(gameInfo)
+            setCarProperties(gameInfo ?? DEFAULT_CAR_PROPERTIES)
         })
 
         global.window.electronAPI.onCarChange((e: Event<CarChangeEventArgs>) => {

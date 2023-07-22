@@ -15,19 +15,18 @@ type Props = {
 
 const Product = (props: Props) => {
     const gameProperties = useGameProperties()
-    const productProperties = useProductProperties();
+    const { configuration } = useProductProperties();
     const carProperties = useCarProperties()
 
-    // TODO read current configuration
-    const leds = Object.keys(productProperties.configuration.default.rpmColors) as unknown as (keyof LEDs<any>)[]
+    const leds = Object.keys(configuration.rpmColors) as unknown as (keyof LEDs<any>)[]
     const currentRpm = carProperties.maxRpm > 0 && gameProperties.currentRpm > 0 ? (gameProperties.currentRpm / carProperties.maxRpm) * 100 : 0;
 
     return (
         <div className={styles.body}>
             {
                 leds.map(led => {
-                    const color = productProperties.configuration.default.rpmColors[led];
-                    const rpm = productProperties.configuration.default.rpmPattern[led];
+                    const color = configuration.rpmColors[led];
+                    const rpm = configuration.rpmPattern[led];
 
                     return <LED key={led} color={color} on={currentRpm >= rpm} />
                 })
