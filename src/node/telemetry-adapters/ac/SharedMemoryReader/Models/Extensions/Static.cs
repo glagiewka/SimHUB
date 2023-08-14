@@ -5,7 +5,8 @@ static class StaticExtensions {
         return new SharedMemoryReader.Models.Console.Static {
             ACVersion = model.ACVersion,
             SMVersion = model.SMVersion,
-            MaxRpm = model.MaxRpm
+            MaxRpm = model.MaxRpm,
+            CarModel = model.CarModel
         };
     }
 }

@@ -19,9 +19,17 @@ export class ACAdapter extends Adapter {
 
     public start() {
         this.staticInterval = setInterval(async () => {
+            //TODO stop interval when connected or validate data
             try {
                 const staticInfo = await this.readFile<Static>('static')
-                staticInfo ? this.connect(staticInfo) : this.disconnect()
+                console.log(staticInfo)
+
+                if (staticInfo) {
+                    this.connect(staticInfo)
+                    this.updateCar(staticInfo)
+                } else {
+                    this.disconnect()
+                }
             } catch (e) {
                 this.disconnect()
                 this.emit(EventName.Error, wrapError(e))
@@ -79,7 +87,7 @@ export class ACAdapter extends Adapter {
             return;
         }
 
-        const { acVersion, smVersion, maxRpm } = staticInfo
+        const { acVersion, smVersion } = staticInfo
 
         if (!acVersion || !smVersion) {
             return;
@@ -91,12 +99,7 @@ export class ACAdapter extends Adapter {
             version: acVersion
         }
 
-        this.currentCar = {
-            maxRpm
-        }
-
         this.emit(EventName.GameConnected, this.currentGame)
-        this.emit(EventName.CarChange, this.currentCar)
         this.startListeningToPhysics()
     }
 
@@ -134,5 +137,19 @@ export class ACAdapter extends Adapter {
         if (this.physicsInterval) {
             clearInterval(this.physicsInterval)
         }
+    }
+
+    private updateCar(staticInfo: Static) {
+        const { maxRpm, carModel } = staticInfo
+        if (this.currentCar?.carModel === carModel) {
+            return;
+        }
+
+        this.currentCar = {
+            maxRpm,
+            carModel
+        }
+        this.emit(EventName.CarChange, this.currentCar)
+
     }
 }
