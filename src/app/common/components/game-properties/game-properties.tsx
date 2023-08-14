@@ -1,6 +1,6 @@
 "use client"
 
-import {useGameProperties} from "@common/data/game";
+import {useCarProperties, useGameProperties} from "@common/data/game";
 import Dialog from "../dialog";
 import styles from "./styles.module.css";
 
@@ -11,6 +11,7 @@ type Props = {
 
 const GameProperties = ({ open, onClose }: Props) => {
     const gameProperties = useGameProperties()
+    const carProperties = useCarProperties()
 
     return (
         <Dialog open={open}>
@@ -21,7 +22,17 @@ const GameProperties = ({ open, onClose }: Props) => {
                 <ul className={styles.list}>
                     <li className={styles.item}>
                         <span className={styles.itemTitle}>Current RPM:</span>
-                        <span className={styles.itemValue}>{gameProperties?.currentRpm}</span>
+                        <span className={styles.itemValue}>{gameProperties.currentRpm}</span>
+                    </li>
+
+                    <li className={styles.item}>
+                        <span className={styles.itemTitle}>Car:</span>
+                        <span className={styles.itemValue}>{carProperties.carModel}</span>
+                    </li>
+
+                    <li className={styles.item}>
+                        <span className={styles.itemTitle}>Max RPM:</span>
+                        <span className={styles.itemValue}>{carProperties.maxRpm}</span>
                     </li>
                 </ul>
             </div>

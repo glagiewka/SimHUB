@@ -17,7 +17,8 @@ export type LEDs<T> = {
 }
 
 export type Configuration = {
-    rpmPattern: LEDs<number> & { flash: number },
+    flashRpm: number,
+    rpmPattern: LEDs<number>,
     rpmColors: LEDs<string>,
     pitLimiterColors: LEDs<string>
 }

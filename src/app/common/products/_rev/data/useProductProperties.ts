@@ -10,6 +10,7 @@ const getConfiguration = (currentConfiguration: string): Configuration => {
     const configuration = (data.configuration as any)[currentConfiguration];
 
     return {
+        flashRpm: defaultConfiguration.flashRpm ?? configuration.flashRpm,
         rpmPattern: {
             ...defaultConfiguration.rpmPattern,
             ...configuration.rpmPattern
@@ -36,9 +37,10 @@ export const useProductProperties = (): ProductInfo => {
 
 const data= {
     name: "Rev_",
-    currentConfiguration: 'redBull',
+    currentConfiguration: 'default',
     configuration: {
         default: {
+            flashRpm: 99,
             rpmPattern: {
                 led0: 50,
                 led1: 53,
@@ -94,22 +96,21 @@ const data= {
         },
         redBull: {
             rpmPattern: {
-                led0: 75,
-                led1: 75,
-                led2: 75,
-                led3: 75,
-                led4: 75,
-                led5: 85,
-                led6: 85,
-                led7: 85,
-                led8: 85,
-                led9: 85,
+                led0: 85,
+                led1: 85,
+                led2: 85,
+                led3: 85,
+                led4: 85,
+                led5: 90,
+                led6: 90,
+                led7: 90,
+                led8: 90,
+                led9: 90,
                 led10: 95,
                 led11: 95,
                 led12: 95,
                 led13: 95,
                 led14: 95,
-                flash: 99
             }
         }
     }

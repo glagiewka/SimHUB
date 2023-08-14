@@ -13,6 +13,7 @@ export type PhysicsChangeEventArgs = {
 }
 
 export type CarChangeEventArgs = {
+    carModel: string
     maxRpm: number
 }
 
