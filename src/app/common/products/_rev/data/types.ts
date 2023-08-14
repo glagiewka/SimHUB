@@ -1,30 +1,32 @@
+export const LED_NAMES = [
+    'led0',
+    'led1',
+    'led2',
+    'led3',
+    'led4',
+    'led5',
+    'led6',
+    'led7',
+    'led8',
+    'led9',
+    'led10',
+    'led11',
+    'led12',
+    'led13',
+    'led14'
+] as const
+
+
 export type LEDs<T> = {
-    led0: T,
-    led1: T,
-    led2: T,
-    led3: T,
-    led4: T,
-    led5: T,
-    led6: T,
-    led7: T,
-    led8: T,
-    led9: T,
-    led10: T,
-    led11: T,
-    led12: T,
-    led13: T,
-    led14: T
+    [key in typeof LED_NAMES[number]]: T
 }
 
 export type Configuration = {
+    ledNames: typeof LED_NAMES,
     flashRpm: number,
     rpmPattern: LEDs<number>,
     rpmColors: LEDs<string>,
     pitLimiterColors: LEDs<string>
-}
-
-type Configurations = {
-    [index: string]: Partial<Configuration>
 }
 
 export type ProductInfo = {

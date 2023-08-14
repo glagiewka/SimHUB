@@ -1,16 +1,20 @@
-import {Configuration, ProductInfo} from "./types";
+import {Configuration, LED_NAMES, ProductInfo} from "./types";
 
 const getConfiguration = (currentConfiguration: string): Configuration => {
-    const defaultConfiguration = data.configuration.default
+    const defaultConfiguration= data.configuration.default
 
     if (currentConfiguration === 'default') {
-        return defaultConfiguration;
+        return {
+            ledNames: LED_NAMES,
+            ...defaultConfiguration
+        };
     }
 
-    const configuration = (data.configuration as any)[currentConfiguration];
+    const configuration = data.configuration[currentConfiguration];
 
     return {
         flashRpm: defaultConfiguration.flashRpm ?? configuration.flashRpm,
+        ledNames: LED_NAMES,
         rpmPattern: {
             ...defaultConfiguration.rpmPattern,
             ...configuration.rpmPattern
@@ -27,7 +31,6 @@ const getConfiguration = (currentConfiguration: string): Configuration => {
 };
 
 export const useProductProperties = (): ProductInfo => {
-
     return {
         name: data.name,
         currentConfiguration: data.currentConfiguration,
@@ -35,7 +38,16 @@ export const useProductProperties = (): ProductInfo => {
     }
 }
 
-const data= {
+type Data = {
+    name: string,
+    currentConfiguration: string,
+    configuration: {
+        default: Omit<Configuration, 'ledNames'>,
+        [index: string]: Partial<Configuration>
+    }
+}
+
+const data: Data = {
     name: "Rev_",
     currentConfiguration: 'default',
     configuration: {
@@ -57,7 +69,6 @@ const data= {
                 led12: 90,
                 led13: 93,
                 led14: 95,
-                flash: 99
             },
             rpmColors: {
                 led0: '#008000',
