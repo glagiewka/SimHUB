@@ -31,7 +31,7 @@
 
 @keyframes rev_flash {
     0% {
-       background: var(--offColor);
+        background: var(--offColor);
     }
 
     50% {

@@ -1,16 +1,18 @@
 import styles from './styles.module.css';
-import { Product as Rev_Product } from '@common/products/_rev';
-
+import {getProductComponent, Products} from "@common/products";
 
 type Props = {
+    id: Products
     name: string
 }
 
-const ProductTile = ({name}: Props) => {
+const ProductTile = ({ id, name }: Props) => {
     return (
         <div className={styles.tile}>
             {name}
-            <Rev_Product />
+            <div className={styles.productContainer}>
+                { getProductComponent(id) }
+            </div>
         </div>
     )
 }

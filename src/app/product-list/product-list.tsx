@@ -11,7 +11,7 @@ const ProductList = (props: Props) => {
 
     return (
         <div className={styles.productList}>
-            { products.map(product => <ProductTile key={product.name} name={product.name}/>) }
+            { products.map(product => <ProductTile key={product.id} id={product.id} name={product.name}/>) }
         </div>
     )
 }

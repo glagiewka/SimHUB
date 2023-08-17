@@ -40,7 +40,8 @@ export const useGameProperties = () => {
 }
 
 const DEFAULT_CAR_PROPERTIES: CarChangeEventArgs = {
-    maxRpm: 0
+    maxRpm: 0,
+    carModel: ''
 }
 
 
